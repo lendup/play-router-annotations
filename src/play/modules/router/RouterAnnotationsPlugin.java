@@ -44,6 +44,11 @@ public class RouterAnnotationsPlugin extends PlayPlugin {
             if (annotation != null) {
                 for (int i = annotation.value().length - 1; i >= 0; i--) {
                     Get get = annotation.value()[i];
+
+		    if (routeExist("GET", getControllerName(annotatedMethod) + "." + annotatedMethod.getName(), get.value())) {
+			continue;
+		    }
+
                     if (get.priority() != -1 && !routeExist("GET", getControllerName(annotatedMethod) + "." + annotatedMethod.getName(), get.value())) {
                         Router.addRoute(get.priority(), "GET", get.value(), getControllerName(annotatedMethod) + "." + annotatedMethod.getName(), getFormat(get.format()), get.accept());
                     } else {
@@ -57,6 +62,10 @@ public class RouterAnnotationsPlugin extends PlayPlugin {
         for (Method get : gets) {
             Get annotation = get.getAnnotation(Get.class);
             if (annotation != null) {
+
+		if (routeExist("GET", getControllerName(get) + "." + get.getName(), annotation.value())) {
+		    continue;
+		}
 
                 if (annotation.priority() != -1 && !routeExist("GET", getControllerName(get) + "." + get.getName(), annotation.value())) {
                     Router.addRoute(annotation.priority(), "GET", annotation.value(), getControllerName(get) + "." + get.getName(), getFormat(annotation.format()), annotation.accept());
@@ -72,6 +81,11 @@ public class RouterAnnotationsPlugin extends PlayPlugin {
             if (annotation != null) {
                 for (int i = annotation.value().length - 1; i >= 0; i--) {
                     Post post = annotation.value()[i];
+
+		    if (routeExist("POST", getControllerName(annotatedMethod) + "." + annotatedMethod.getName(), post.value())) {
+			continue;
+		    }
+
                     if (post.priority() != -1 && !routeExist("POST", getControllerName(annotatedMethod) + "." + annotatedMethod.getName(), post.value())) {
                         Router.addRoute(post.priority(), "POST", post.value(), getControllerName(annotatedMethod) + "." + annotatedMethod.getName(), getFormat(post.format()), post.accept());
                     } else {
@@ -85,6 +99,11 @@ public class RouterAnnotationsPlugin extends PlayPlugin {
         for (Method post : posts) {
             Post annotation = post.getAnnotation(Post.class);
             if (annotation != null) {
+
+		if (routeExist("POST", getControllerName(post) + "." + post.getName(), annotation.value())) {
+		    continue;
+		}
+
                 if (annotation.priority() != -1 && !routeExist("POST", getControllerName(post) + "." + post.getName(), annotation.value())) {
                     Router.addRoute(annotation.priority(), "POST", annotation.value(), getControllerName(post) + "." + post.getName(), getFormat(annotation.format()), annotation.accept());
                 } else {
